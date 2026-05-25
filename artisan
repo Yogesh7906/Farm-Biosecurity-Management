@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+
+define('LARAVEL_START', microtime(true));
+
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader
+| for our application. We just need to utilize it! We'll require it
+| into the script here so that we do not have to worry about the
+| loading of any of our classes manually. It's great.
+|
+*/
+
+if (file_exists($a = __DIR__.'/vendor/autoload.php')) {
+    require $a;
+} else {
+    fwrite(STDERR, "Cannot find vendor/autoload.php. Please run 'composer install'.\n");
+    exit(1);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Bootstrap and Run Laravel Artisan Command
+|--------------------------------------------------------------------------
+|
+| We bootstrap the application, then execute the command dynamically
+| using Laravel 11's standard `handleCommand` API which routes the
+| command to the command kernel.
+|
+*/
+
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+$status = $app->handleCommand(new Symfony\Component\Console\Input\ArgvInput);
+
+exit($status);
